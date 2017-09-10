@@ -1,0 +1,81 @@
+﻿@using SimchaWebApplication.web.Models
+@using SimchaWebApplication.data
+@model  ContributionsViewModel
+
+
+<div class="container">
+    <div id="simcha-contributors-index">
+
+        <div class="header">
+            <h1>
+                Contributors for the
+               @Model.Simcha.Name Simcha
+            </h1>
+        </div>
+        <div class="header">
+            <input type="text" class="input-sm" placeholder="Search" id="search" />
+            <button class="btn btn-danger" id="clear">Clear</button>
+        </div>
+        <form method="POST" action="/home/UpdateContributions">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th style="text-align:center;vertical-align:middle;">Contribute</th>
+                        <th style="text-align:center;vertical-align:middle;">Name</th>
+                        <th style="text-align:center;vertical-align:middle;">Balance</th>
+                        <th style="text-align:center;vertical-align:middle;">Always Include</th>
+                        <th style="text-align:center;vertical-align:middle;">Amount</th>
+                    </tr>
+                    @for (int i = 0; i < Model.Contributors.Count(); i++)
+                    {
+                        
+                        Contributor c = Model.Contributors[i];
+                        <tr>
+                           <td hidden><input value="@c.Id" name="Contributions[@i].ContributorId"/></td>
+                            <td style="text-align:center;vertical-align:middle;">
+                               @if (c.Amount != null)
+                               {
+                                <input type="checkbox" name="Contributions[@i].Include" checked value="true" />
+                               }
+                               else
+                               {
+                                <input type="checkbox" name="Contributions[@i].Include" value="true" />
+                               }
+                                <input type="checkbox" hidden name="Contributions[@i].Include" value="false" />
+                            </td>
+                            <td style="text-align:center;vertical-align:middle;">
+                                <span style="">
+                                    @c.FirstName @c.LastName
+                                </span>
+                            </td>
+                            <td style="text-align:center;vertical-align:middle;">
+                                <span style="">$@c.balance</span>
+                            </td>
+                            <td style="text-align:center; vertical-align:middle;">
+                                @if (c.AlwaysInclude)
+                                {
+                                    <span style="font-size:20px;" class="glyphicon glyphicon-ok-sign"></span>
+                                }
+                            </td>
+                            <td style="text-align:center;vertical-align:middle;">
+                                @if (c.Amount != null)
+                                {
+                                    <input name="Contributions[@i].Amount" type="text" value="@c.Amount.ToString()" class="form-control">
+                                }
+                                else
+                                {
+                                    <input name="Contributions[@i].Amount" type="text" value="5" class="form-control">
+                                }
+                            </td>
+                        </tr>
+
+                    }                        
+                    
+                </table>
+                <br />
+                <input hidden value="@Model.Simcha.Id" name="SimchaId" />
+             </div>
+            <button class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+﻿@using SimchaWebApplication.web.Models
+@using SimchaWebApplication.data
+@model ShowHistoryViewModel
+
+
+	<div class="container">
+		<div id="contributors-show">
+
+    <div class="header">
+        <h1>History for @Model.Contributor.FirstName @Model.Contributor.LastName</h1>
+        <h3>Current Balance: $@Model.Contributor.balance</h3>
+    </div>
+	
+	<div class="row header">
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped">
+				<tr style="text-align:center;vertical-align:middle;">
+					<th style="text-align:center;vertical-align:middle;width:45%">Action</th>
+					<th style="text-align:center;vertical-align:middle;">Date</th>
+					<th style="text-align:center;vertical-align:middle;">Amount</th>
+				</tr>
+                @foreach (Contribution t in Model.Transactions)
+                {
+                    <tr>
+                        <td style="text-align:center;vertical-align:middle;">
+                           @t.SimchaName
+                        </td>
+                        <td style="text-align:center;vertical-align:middle;">
+                            @t.Date
+                        </td>
+                        @if (t.SimchaName == "Deposit")
+                        {
+                            <td style="text-align:center;vertical-align:middle;"> +@t.Amount</td>
+                        }
+                        else
+                        {
+                            <td style="text-align:center;vertical-align:middle;">-@t.Amount</td>
+                        }
+                   </tr>
+                }			
+			</table>
+		</div>
+	</div>
+
+		<div style="text-align:center;">
+			<a class="btn-lg btn-danger" href="/home/Contributors">Back to Contributors</a>
+		</div>
+</div>
+
+	</div>
